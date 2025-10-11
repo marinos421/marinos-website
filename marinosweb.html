@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Marinos Aristidou — Portfolio & CV</title>
+  <meta name="description" content="Online CV & portfolio for Marinos Aristidou — Computer Engineering student, University of Ioannina.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0b0c10;--panel:#0e1116;--text:#eaeef2;--muted:#9aa4ad;--brand:#8b5cf6;--accent:#22d3ee;--line:#1a1f29;--card:transparent;--chip:#121722;--chip-text:#cfd3da}
+    :root.light{--bg:#ffffff;--panel:#f8fafc;--text:#0b1220;--muted:#667085;--brand:#7c3aed;--accent:#06b6d4;--line:#eef2f6;--card:transparent;--chip:#eef2f6;--chip-text:#0b1220}
+    :root.light{
+      --bg:#f8fafc; --panel:#ffffff; --text:#0f172a; --muted:#475569; --brand:#6d28d9; --accent:#0ea5e9; --line:#e5e7eb;
+      --card:#ffffff; --chip:#f1f5f9; --chip-text:#0f172a;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;scroll-behavior:smooth}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    header{position:sticky;top:0;background:color-mix(in oklab, var(--bg) 92%, transparent);border-bottom:1px solid var(--line);z-index:50}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .nav a{padding:10px 12px;border-radius:10px;color:var(--muted)}
+    .nav a:hover{background:var(--chip);color:var(--text)}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--accent));display:grid;place-items:center;font-weight:800;letter-spacing:.5px}
+    .brand .title{font-weight:800;letter-spacing:.2px}
+    .controls{display:flex;gap:8px}
+    .btn{border:1px solid var(--line);background:var(--chip);color:var(--chip-text);padding:8px 12px;border-radius:12px;font-weight:600}
+    .btn:hover{transform:translateY(-1px)}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr;gap:18px;align-items:center;padding:72px 0 36px}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--line);color:var(--muted);padding:6px 10px;border-radius:999px;font-size:13px}
+    h1{font-size:44px;line-height:1.1;margin:8px 0 10px;font-weight:800}
+    .lead{color:var(--muted);font-size:18px;max-width:720px}
+    .hero-card{background:transparent;border:none;border-radius:0;padding:0}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    .pill{background:transparent;border:1px solid var(--line);padding:8px 12px;border-radius:999px;font-size:13px;color:var(--muted)}
+    .actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+    .cta{background:var(--text);color:var(--bg);border:none}
+
+    /* Section */
+    section{padding:46px 0;border-top:1px solid var(--line)}
+    section h2{font-size:26px;margin:0 0 6px}
+    .muted{color:var(--muted)}
+
+    /* Cards */
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .card{background:transparent;border:none;border-radius:12px;padding:10px 4px;display:flex;flex-direction:column;gap:6px}
+    .card h3{margin:0;font-size:18px}
+    .card p{margin:0;color:var(--muted)}
+    .tagrow{display:flex;gap:6px;flex-wrap:wrap}
+
+    /* Timeline */
+    .timeline{display:grid;gap:10px}
+    .titem{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:start}
+    .titem .when{color:var(--muted);font-weight:600}
+
+    /* Footer */
+    footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted)}
+
+    /* Responsive */
+    @media (max-width: 1000px){.cards{grid-template-columns:1fr 1fr}}
+    @media (max-width: 640px){.cards{grid-template-columns:1fr}.titem{grid-template-columns:1fr}}
+
+    /* Assistant Hero (clean) */
+    .assistant{display:grid;grid-template-columns:1fr;gap:18px;align-items:center;justify-items:center;text-align:center}
+    .avatar{width:132px;height:132px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+    .ai-card{background:transparent;border:none;padding:0;max-width:780px}
+    .chatbox{display:flex;gap:8px;margin-top:14px;width:100%}
+    .chatbox input{flex:1;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:14px 16px;border-radius:12px;font-size:16px}
+    .chatbox button{border:1px solid var(--line);background:transparent;color:var(--text);padding:12px 14px;border-radius:12px;font-weight:600}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;justify-content:center}
+    .chip{background:transparent;border:1px solid var(--line);color:var(--muted);padding:8px 12px;border-radius:999px;font-size:13px;cursor:pointer}
+    .mic.active{outline:2px solid var(--accent)}
+    .helper{font-size:13px;color:var(--muted);margin-top:8px} 
+    section{padding:28px 0;border-top:1px solid var(--line)}
+    section h2{font-size:26px;margin:0 0 10px}
+    .muted{color:var(--muted)}
+
+    /* Cards */
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px}
+    .card h3{margin:0;font-size:18px}
+    .card p{margin:0;color:var(--muted)}
+    .tagrow{display:flex;gap:8px;flex-wrap:wrap}
+
+    /* Timeline */
+    .timeline{display:grid;gap:14px}
+    .titem{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:start}
+    .titem .when{color:var(--muted);font-weight:600}
+
+    /* Footer */
+    footer{padding:24px 0;border-top:1px solid var(--line);color:var(--muted)}
+
+    /* Responsive */
+    @media (max-width: 1000px){.hero{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}}
+    @media (max-width: 640px){.cards{grid-template-columns:1fr}.titem{grid-template-columns:1fr}}
+      /* Assistant Hero */
+    .assistant{display:grid;grid-template-columns:420px 1fr;gap:28px;align-items:center;padding:46px 0}
+    .avatar{width:160px;height:160px;border-radius:28px;object-fit:cover;border:2px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .ai-card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px}
+    .chatbox{display:flex;gap:10px;margin-top:12px}
+    .chatbox input{flex:1;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:12px 14px;border-radius:14px}
+    .chatbox button{border:1px solid var(--line);background:var(--chip);color:var(--chip-text);padding:10px 12px;border-radius:12px;font-weight:600}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .chip{background:var(--chip);border:1px solid var(--line);color:var(--chip-text);padding:8px 12px;border-radius:999px;font-size:13px;cursor:pointer}
+    .mic.active{outline:2px solid var(--accent)}
+    @media (max-width: 1000px){.assistant{grid-template-columns:1fr}}
+	
+	img.project-img{width:100%;height:180px;object-fit:cover;border-radius:10px;margin-bottom:8px}
+    /* Center hero override */
+    .assistant{grid-template-columns:1fr !important; justify-items:center; text-align:center}
+    .assistant .ai-card{max-width:780px;margin:0 auto}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-label="Marinos logo">M</div>
+        <div class="title">Marinos Aristidou</div>
+      </div>
+      <nav class="links" aria-label="Primary">
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="controls">
+        <button class="btn" id="themeBtn" aria-label="Toggle theme">Toggle Theme</button>
+        <a class="btn" href="#contact">Hire me</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="assistant" id="home" aria-label="AI Assistant Intro">
+      <div class="ai-card">
+        <img class="avatar" src="face.png" alt="Marinos face" />
+        <span class="badge">Talk • Type • Tap</span>
+        <h1>I’m Marinos’ site assistant</h1>
+        <p class="lead">Ask for anything you want to see: “projects”, “skills”, “experience”, “contact”, “download CV”, or “light mode”. I’ll navigate instantly.</p>
+        <div class="chatbox" role="search">
+          <input id="aiInput" type="text" placeholder="Try: show projects" aria-label="Ask or type a command" />
+          <button id="aiSend" class="btn" aria-label="Send">Go</button>
+          <button id="aiMic" class="btn mic" aria-label="Voice control">🎤</button>
+		<div>
+		</div>
+        <div class="helper" aria-live="polite" id="aiHint">Hint: say “open projects” or type "go to projects".</div>
+      </div>
+    </section>
+    <!-- EXPERIENCE -->
+    <section id="experience" aria-label="Experience">
+      <h2>Experience</h2>
+      <div class="timeline">
+        <div class="titem">
+          <div class="when">2024 — now</div>
+          <div>
+            <strong>Computer Engineering Student</strong> · University of Ioannina
+            <p class="muted">Focused on Graphics & Visualization, Operating Systems, Algorithms, and Databases. Building portfolio projects (3D Maze, OCR/MRZ, Reservations, OS Labs, AI Search, Unity Controller).</p>
+          </div>
+        </div>
+        <div class="titem">
+          <div class="when">2022 — 2024</div>
+          <div>
+            <strong>Part‑time roles</strong> · Retail & Food Service
+            <p class="muted">Grew teamwork, communication, and customer-first mindset while balancing study and work.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" aria-label="Projects">
+      <h2>Selected Projects</h2>
+      <p class="muted">A few favorites. More on my GitHub.</p>
+      <div class="cards">
+        <article class="card" aria-label="OpenGL 3D Maze">
+          <img src="treasurer-bob.png" alt="Treasurer Bob 3D Maze" class="project-img">
+          <div class="tagrow"><span class="pill">C++ · OpenGL</span><span class="pill">GLM · GLEW</span></div>
+          <h3>3D Maze with Camera & Collision</h3>
+          <p>Interactive maze with blue wall cubes and a yellow character cube, smooth camera moves (zoom/rotate), and collision detection. Includes randomized treasures and reset logic.</p>
+          <div class="actions">
+            <a class="btn" href="https://github.com/marinos421/TreasureBob-3D" target="_blank" rel="noopener">Repo</a>
+          </div>
+        </article>
+
+        <article class="card" aria-label="Operating systems labs">
+          <img src="os-labs.png" alt="Operating Systems Labs" class="project-img">
+          <div class="tagrow"><span class="pill">C</span><span class="pill">Concurrency</span></div>
+          <h3>OS Labs: Schedulers & File Systems</h3>
+          <p>From multithreaded KV‑store to process schedulers and kernel‑level FS instrumentation. Includes reports and benchmarks.</p>
+          <div class="actions">
+            <a class="btn" href="https://github.com/marinos421/Operating-System-MYY601" target="_blank" rel="noopener">Repo</a>
+          </div>
+        </article>
+
+        <article class="card" aria-label="AI search">
+          <img src="ai-game-search.png" alt="AI Game Search Algorithms" class="project-img">
+          <div class="tagrow"><span class="pill">Python</span><span class="pill">AI Search</span></div>
+          <h3>AI Game Search Algorithms</h3>
+          <p>Classic algorithms (BFS/DFS/A*, Minimax) applied to game‑like grids. Clean modular design and visualizations.</p>
+          <div class="actions">
+            <a class="btn" href="https://github.com/marinos421/AI-GAME-SEARCH-ALGORITHMS" target="_blank" rel="noopener">Repo</a>
+          </div>
+        </article>
+
+        <article class="card" aria-label="Natural Disasters project">
+          <img src="natural-disasters.png" alt="Natural Disasters Analytics" class="project-img">
+          <div class="tagrow"><span class="pill">Python</span><span class="pill">Data Visualization</span></div>
+          <h3>Natural Disasters Analysis Project</h3>
+          <p>Data-driven project analyzing global natural disasters using Python and visualization tools to understand impact patterns.</p>
+          <div class="actions">
+            <a class="btn" href="https://github.com/marinos421/Natural-Disasters-Analytics" target="_blank" rel="noopener">Repo</a>
+          </div>
+        </article>
+
+        <article class="card" aria-label="Traineeship Management project">
+          <img src="traineeship.png" alt="Traineeship Management System" class="project-img">
+          <div class="tagrow"><span class="pill">Java · Spring Boot</span><span class="pill">Thymeleaf · SQL</span></div>
+          <h3>Traineeship Management System</h3>
+          <p>Web application for managing student traineeships, including multi-evaluation by professors and committees with real-time data views.</p>
+          <div class="actions">
+            <a class="btn" href="https://github.com/marinos421/Traineeship-Management-System" target="_blank" rel="noopener">Repo</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education" aria-label="Education">
+      <h2>Education</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>B.Sc. Computer Engineering</h3>
+          <p>University of Ioannina · 2021 — present</p>
+          <p class="muted">Relevant courses: Computer Architecture, Operating Systems, Graphics, Algorithms, DB Systems, AI, Probability & Statistics.</p>
+        </article>
+        <article class="card">
+          <h3>Independent Learning</h3>
+          <p>Unity, OpenGL, Spring Boot, OCR/Computer Vision.</p>
+          <p class="muted">Lots of hands‑on projects and iterative prototyping.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" aria-label="Skills">
+      <h2>Skills</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>Languages</h3>
+          <div class="tagrow">
+            <span class="pill">C/C++</span><span class="pill">Java</span><span class="pill">Python</span><span class="pill">C#</span><span class="pill">JavaScript</span><span class="pill">Haskell</span><span class="pill">Assembly</span><span class="pill">Prolog</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Frameworks & Tools</h3>
+          <div class="tagrow">
+            <span class="pill">OpenGL</span><span class="pill">Unity</span><span class="pill">Spring Boot</span><span class="pill">Thymeleaf</span><span class="pill">GLM/GLEW</span><span class="pill">OpenCV</span><span class="pill">Tesseract</span><span class="pill">PaddleOCR</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Other</h3>
+          <div class="tagrow">
+            <span class="pill">Git & GitHub</span><span class="pill">Data Structures</span><span class="pill">Algorithms</span><span class="pill">RISC‑V</span><span class="pill">UX/UI basics</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" aria-label="Contact">
+      <h2>Contact</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>Let’s build something</h3>
+          <p class="muted">Email: <a href="mailto:marinosapo54@gmail.com">marinosapo54@gmail.com</a></p>
+          <p class="muted">LinkedIn: <a href="https://www.linkedin.com/in/marinos-aristeidou-786526300" target="_blank" rel="noopener">linkedin.com/in/marinos-aristeidou-786526300</a></p>
+          <p class="muted">GitHub: <a href="https://github.com/marinos421" target="_blank" rel="noopener">github.com/marinos421</a></p>
+          <p class="muted">Phone: <a href="tel:+35796889588">+357 96 889588</a></p>
+          <div class="actions">
+			<a class="btn" href="https://github.com/marinos421" target="_blank">GitHub Repo</a>
+			<a class="btn" href="https://www.linkedin.com/in/marinos-aristeidou-786526300" target="_blank">LinkedIn</a>
+			<a class="btn" href="mailto:marinosapo54@gmail.com?subject=Hello%20Marinos">Email Me</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="y"></span> Marinos Aristidou · Built with clean HTML/CSS. </div>
+  </footer>
+
+  <script>
+    // Theme toggle with localStorage
+    const root=document.documentElement;
+    const themeBtn=document.getElementById('themeBtn');
+    const pref=localStorage.getItem('theme')||'dark';
+    if(pref==='light'){root.classList.add('light');}
+    themeBtn.addEventListener('click',()=>{root.classList.toggle('light');localStorage.setItem('theme',root.classList.contains('light')?'light':'dark');});
+    document.getElementById('y').textContent=new Date().getFullYear();
+
+    // --- AI navigation (clean, client-side only) ---
+    const input = document.getElementById('aiInput');
+    const sendBtn = document.getElementById('aiSend');
+    const micBtn = document.getElementById('aiMic');
+    const chips = document.querySelectorAll('.chip');
+    const hint = document.getElementById('aiHint');
+
+    const go = sel => document.querySelector(sel)?.scrollIntoView({behavior:'smooth',block:'start'});
+
+    function handleCommand(raw){
+      if(!raw) return;
+      const t = raw.trim().toLowerCase();
+      hint.textContent = `Heard: "${t}"`;
+      if(/project/.test(t) || t==='show projects'){ go('#projects'); return; }
+      if(/skill/.test(t) || t==='open skills'){ go('#skills'); return; }
+      if(/experience|work|jobs/.test(t) || t==='open experience'){ go('#experience'); return; }
+      if(/education|studies|uni/.test(t) || t==='open education'){ go('#education'); return; }
+      if(/contact|email|reach/.test(t)){ go('#contact'); return; }
+      if(/top|home/.test(t) || /scroll.*top/.test(t)){ go('#home'); return; }
+      if(/download.*cv/.test(t) || t==='download cv'){ location.href='cv.pdf'; return; }
+      if(/(light|dark) mode|theme/.test(t)){
+        const wantLight = t.includes('light');
+        root.classList.toggle('light', wantLight);
+        localStorage.setItem('theme', wantLight?'light':'dark');
+        return;
+      }
+      if(/github/.test(t)){ window.open('https://github.com/USERNAME','_blank'); return; }
+      if(/linkedin/.test(t)){ window.open('https://www.linkedin.com/in/USERNAME','_blank'); return; }
+      if(/email/.test(t)){ window.location.href='mailto:hello@example.com?subject=Hello%20Marinos'; return; }
+      if(/^find /.test(t)){
+        const q=t.replace(/^find /,'').trim();
+        const cards=[...document.querySelectorAll('#projects .card')];
+        const target = cards.find(c=>c.textContent.toLowerCase().includes(q));
+        if(target){ target.scrollIntoView({behavior:'smooth',block:'center'}); target.style.outline='2px solid var(--accent)'; setTimeout(()=>target.style.outline='none',2000); return; }
+      }
+      go('#projects');
+    }
+
+    sendBtn?.addEventListener('click',()=>handleCommand(input.value));
+    input?.addEventListener('keydown',e=>{ if(e.key==='Enter'){ handleCommand(input.value); }});
+    chips.forEach(ch=>ch.addEventListener('click',()=>handleCommand(ch.dataset.cmd)));
+
+    // Voice recognition (Web Speech API)
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(SR){
+      const rec = new SR();
+      rec.lang = 'en-US'; // change to 'el-GR' for Greek commands
+      rec.interimResults = false;
+      rec.maxAlternatives = 1;
+      micBtn?.addEventListener('click',()=>{ try{ rec.start(); }catch(err){} });
+      rec.addEventListener('result', (e)=>{
+        const said = e.results[0][0].transcript;
+        input.value = said;
+        handleCommand(said);
+      });
+    }else{
+      micBtn?.setAttribute('disabled','true');
+      micBtn?.setAttribute('title','Voice not supported on this browser');
+    }
+  </script>
+</body>
+</html>
