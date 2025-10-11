@@ -76,6 +76,10 @@
     .chip{background:transparent;border:1px solid var(--line);color:var(--muted);padding:8px 12px;border-radius:999px;font-size:13px;cursor:pointer}
     .mic.active{outline:2px solid var(--accent)}
     .helper{font-size:13px;color:var(--muted);margin-top:8px} 
+	/* mini chat log */
+	.chatlog{margin-top:12px;display:flex;flex-direction:column;gap:8px;max-height:220px;overflow:auto;padding-right:4px}
+	.msg{display:inline-flex;align-self:flex-start;max-width:90%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);font-size:14px}
+	.msg.user{align-self:flex-end;background:transparent}
     section{padding:28px 0;border-top:1px solid var(--line)}
     section h2{font-size:26px;margin:0 0 10px}
     .muted{color:var(--muted)}
@@ -124,7 +128,6 @@
         <div class="title">Marinos Aristidou</div>
       </div>
       <nav class="links" aria-label="Primary">
-		<a href="#about">About Me</a>
         <a href="#projects">Projects</a>
         <a href="#experience">Experience</a>
         <a href="#education">Education</a>
@@ -133,6 +136,7 @@
       </nav>
       <div class="controls">
         <button class="btn" id="themeBtn" aria-label="Toggle theme">Toggle Theme</button>
+        <a class="btn" href="#contact">Hire me</a>
       </div>
     </div>
   </header>
@@ -145,6 +149,7 @@
         <span class="badge">Talk • Type • Tap</span>
         <h1>I’m Marinos’ site assistant</h1>
         <p class="lead">Ask for anything you want to see: “projects”, “skills”, “experience”, “contact”, “download CV”, or “light mode”. I’ll navigate instantly.</p>
+		<div id="chatlog" class="chatlog" aria-live="polite" aria-relevant="additions"></div>
         <div class="chatbox" role="search">
           <input id="aiInput" type="text" placeholder="Try: show projects" aria-label="Ask or type a command" />
           <button id="aiSend" class="btn" aria-label="Send">Go</button>
@@ -152,32 +157,9 @@
 		<div>
 		</div>
         <div class="helper" aria-live="polite" id="aiHint">Hint: say “open projects” or type "go to projects".</div>
+		<div id="chatlog" class="chatlog" aria-live="polite" aria-relevant="additions"></div>
       </div>
     </section>
-    <!-- ABOUT ME -->
-	<section id="about" aria-label="About Me">
-	  <h2>About Me</h2>
-	  <p class="lead">
-	    Hey there 👋 I’m <strong>Marinos Aristidou</strong> — a <strong>Computer Engineering student</strong> at the 
-	    <strong>University of Ioannina</strong> with a strong passion for <strong>AI, Game Development, and Interactive Systems</strong>.
-	  </p>
-	  <p>
-	    I love building things that blend creativity with technology — from <strong>3D games in Unity and OpenGL</strong> 
-	    to <strong>AI-powered OCR and form automation tools</strong>. My projects focus on combining 
-	    <strong>smart algorithms, clean design, and smooth user experience</strong>.
-	  </p>
-	  <p>
-	    Outside of coding, you’ll probably find me working out, brainstorming startup ideas, or refining 
-	    my next side project — always learning, always creating.
-	  </p>
-	  <div class="tagrow" style="margin-top:10px;">
-	    <span class="pill">AI & Computer Vision</span>
-	    <span class="pill">Game Development</span>
-	    <span class="pill">Full-Stack Web Apps</span>
-	    <span class="pill">Problem Solving</span>
-	    <span class="pill">Continuous Learning</span>
-	  </div>
-	</section>	
     <!-- EXPERIENCE -->
     <section id="experience" aria-label="Experience">
       <h2>Experience</h2>
@@ -337,41 +319,99 @@
     const micBtn = document.getElementById('aiMic');
     const chips = document.querySelectorAll('.chip');
     const hint = document.getElementById('aiHint');
+	const log  = document.getElementById('chatlog');
 
     const go = sel => document.querySelector(sel)?.scrollIntoView({behavior:'smooth',block:'start'});
 
-    function handleCommand(raw){
-      if(!raw) return;
-      const t = raw.trim().toLowerCase();
-      hint.textContent = `Heard: "${t}"`;
-      if(/project/.test(t) || t==='show projects'){ go('#projects'); return; }
-      if(/skill/.test(t) || t==='open skills'){ go('#skills'); return; }
-	  if(/about/.test(t) || t==='open about'){ go('#about'); return; }
-      if(/experience|work|jobs/.test(t) || t==='open experience'){ go('#experience'); return; }
-      if(/education|studies|uni/.test(t) || t==='open education'){ go('#education'); return; }
-      if(/contact|email|reach/.test(t)){ go('#contact'); return; }
-      if(/top|home/.test(t) || /scroll.*top/.test(t)){ go('#home'); return; }
-      if(/download.*cv/.test(t) || t==='download cv'){ location.href='cv.pdf'; return; }
-      if(/(light|dark) mode|theme/.test(t)){
-        const wantLight = t.includes('light');
-        root.classList.toggle('light', wantLight);
-        localStorage.setItem('theme', wantLight?'light':'dark');
-        return;
-      }
-      if(/github/.test(t)){ window.open('https://github.com/USERNAME','_blank'); return; }
-      if(/linkedin/.test(t)){ window.open('https://www.linkedin.com/in/USERNAME','_blank'); return; }
-      if(/email/.test(t)){ window.location.href='mailto:hello@example.com?subject=Hello%20Marinos'; return; }
-      if(/^find /.test(t)){
-        const q=t.replace(/^find /,'').trim();
-        const cards=[...document.querySelectorAll('#projects .card')];
-        const target = cards.find(c=>c.textContent.toLowerCase().includes(q));
-        if(target){ target.scrollIntoView({behavior:'smooth',block:'center'}); target.style.outline='2px solid var(--accent)'; setTimeout(()=>target.style.outline='none',2000); return; }
-      }
-      go('#projects');
-    }
+	function addMsg(role, text){
+	  if(!log) return;
+	  var el = document.createElement('div');
+	  el.className = 'msg ' + role;
+	  el.textContent = text;
+	  log.appendChild(el);
+	  log.scrollTop = log.scrollHeight;
+	}
+	function speak(text){
+	  try{
+		var s = window.speechSynthesis; if(!s) return;
+		var u = new SpeechSynthesisUtterance(text);
+		u.lang = (localStorage.getItem('voiceLang') || 'en-US'); // 'el-GR' if you want Greek
+		s.cancel(); s.speak(u);
+	  }catch(e){}
+	}
+	function smallTalk(t){
+	  if(/^(hi|hey|hello|yo|sup|good\s*(morning|evening|afternoon))\b/.test(t)) return "Hey! What would you like to see — projects, skills, experience, or contact?";
+	  if(/how are you|how's it going|how are u/.test(t)) return "Doing great and ready to guide you around the site. Want projects or skills?";
+	  if(/who are you|what are you|are you (ai|bot)/.test(t)) return "I’m Marinos’ site assistant. I can open sections, switch theme, or find a project by keyword.";
+	  if(/help|what can you do|commands/.test(t)) return "Try: ‘show projects’, ‘open skills’, ‘contact’, ‘download CV’, ‘light mode’, or say ‘find maze’.";
+	  if(/thank(s| you)/.test(t)) return "Anytime ✌️";
+	  if(/joke/.test(t)) return "A programmer’s to-do list: 1) Make website 2) Make it fast 3) Make it perfect 4) // TODO: remove step 3";
+	  if(/(greek|ελληνικά)/.test(t)) return "Μπορώ να καταλάβω βασικές εντολές. Πες ‘έργα’, ‘δεξιότητες’, ‘εμπειρία’, ‘επικοινωνία’.";
+	  return null;
+	}
 
-    sendBtn?.addEventListener('click',()=>handleCommand(input.value));
-    input?.addEventListener('keydown',e=>{ if(e.key==='Enter'){ handleCommand(input.value); }});
+	function handleCommand(raw){
+	  if(!raw) return;
+	  var t = raw.trim().toLowerCase();
+	  if(hint) hint.textContent = 'Heard: "'+t+'"';
+	  addMsg('user', raw.trim());
+
+	  var chit = smallTalk(t);
+	  if(chit){ addMsg('bot', chit); speak(chit); return; }
+
+	  // Navigation
+	  if(/project/.test(t) || t==='show projects'){ addMsg('bot','Opening projects…'); go('#projects'); return; }
+	  if(/skill/.test(t) || t==='open skills'){ addMsg('bot','Opening skills…'); go('#skills'); return; }
+	  if(/experience|work|jobs/.test(t) || t==='open experience'){ addMsg('bot','Opening experience…'); go('#experience'); return; }
+	  if(/education|studies|uni/.test(t) || t==='open education'){ addMsg('bot','Opening education…'); go('#education'); return; }
+	  if(/contact|email|reach/.test(t)){ addMsg('bot','Opening contact…'); go('#contact'); return; }
+	  if(/top|home/.test(t) || /scroll.*top/.test(t)){ addMsg('bot','Back to top.'); go('#home'); return; }
+
+	  // Actions
+	  if(/download.*cv/.test(t) || t==='download cv'){ addMsg('bot','Downloading CV…'); location.href='cv.pdf'; return; }
+	  if(/(light|dark) mode|theme/.test(t)){
+		var wantLight = t.indexOf('light') > -1;
+		root.classList.toggle('light', wantLight);
+		localStorage.setItem('theme', wantLight ? 'light' : 'dark');
+		var m = wantLight ? 'Light mode on.' : 'Dark mode on.';
+		addMsg('bot', m); speak(m); return;
+	  }
+	  if(/github/.test(t)){ addMsg('bot','Opening GitHub…'); window.open('https://github.com/marinos421','_blank'); return; }
+	  if(/linkedin/.test(t)){ addMsg('bot','Opening LinkedIn…'); window.open('https://www.linkedin.com/in/marinos-aristeidou-786526300','_blank'); return; }
+	  if(/email/.test(t)){ addMsg('bot','Opening email…'); window.location.href='mailto:marinosapo54@gmail.com?subject=Hello%20Marinos'; return; }
+
+	  // Find project by keyword
+	  if(/^find /.test(t)){
+		var q=t.replace(/^find /,'').trim();
+		var cards=[].slice.call(document.querySelectorAll('#projects .card'));
+		var target = cards.find(function(c){ return c.textContent.toLowerCase().includes(q); });
+		if(target){
+		  target.scrollIntoView({behavior:'smooth',block:'center'});
+		  target.style.outline='2px solid var(--accent)'; setTimeout(function(){target.style.outline='none'},2000);
+		  var fm='Found something matching “'+q+'”.'; addMsg('bot',fm); speak(fm); return;
+		}
+		var mm='I couldn’t find “'+q+'”. Try another keyword.'; addMsg('bot',mm); speak(mm); return;
+	  }
+
+	  addMsg('bot','I didn’t get that, but I can open Projects, Skills, Experience, or Contact.');
+	}
+
+	// greet once
+	addMsg('bot','Hi! I’m your guide. Say “show projects” or type a command.');
+
+
+	sendBtn?.addEventListener('click',()=>{
+	  handleCommand(input.value);
+	  input.value = ""; // clear the box
+	});
+
+	input?.addEventListener('keydown',e=>{
+	  if(e.key==='Enter'){
+		handleCommand(input.value);
+		input.value = ""; // clear the box
+	  }
+	});
+
     chips.forEach(ch=>ch.addEventListener('click',()=>handleCommand(ch.dataset.cmd)));
 
     // Voice recognition (Web Speech API)
@@ -381,12 +421,13 @@
       rec.lang = 'en-US'; // change to 'el-GR' for Greek commands
       rec.interimResults = false;
       rec.maxAlternatives = 1;
-      micBtn?.addEventListener('click',()=>{ try{ rec.start(); }catch(err){} });
+	  micBtn?.addEventListener('click',()=>{ try{ addMsg('bot','Listening…'); rec.start(); }catch(err){} });
       rec.addEventListener('result', (e)=>{
         const said = e.results[0][0].transcript;
         input.value = said;
         handleCommand(said);
       });
+	  rec.addEventListener('end', ()=>{ addMsg('bot','Done listening.'); });
     }else{
       micBtn?.setAttribute('disabled','true');
       micBtn?.setAttribute('title','Voice not supported on this browser');
@@ -394,6 +435,3 @@
   </script>
 </body>
 </html>
-
-
-
