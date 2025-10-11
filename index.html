@@ -154,6 +154,30 @@
         <div class="helper" aria-live="polite" id="aiHint">Hint: say “open projects” or type "go to projects".</div>
       </div>
     </section>
+    <!-- ABOUT ME -->
+	<section id="about" aria-label="About Me">
+	  <h2>About Me</h2>
+	  <p class="lead">
+	    Hey there 👋 I’m <strong>Marinos Aristidou</strong> — a <strong>Computer Engineering student</strong> at the 
+	    <strong>University of Ioannina</strong> with a strong passion for <strong>AI, Game Development, and Interactive Systems</strong>.
+	  </p>
+	  <p>
+	    I love building things that blend creativity with technology — from <strong>3D games in Unity and OpenGL</strong> 
+	    to <strong>AI-powered OCR and form automation tools</strong>. My projects focus on combining 
+	    <strong>smart algorithms, clean design, and smooth user experience</strong>.
+	  </p>
+	  <p>
+	    Outside of coding, you’ll probably find me working out, brainstorming startup ideas, or refining 
+	    my next side project — always learning, always creating.
+	  </p>
+	  <div class="tagrow" style="margin-top:10px;">
+	    <span class="pill">AI & Computer Vision</span>
+	    <span class="pill">Game Development</span>
+	    <span class="pill">Full-Stack Web Apps</span>
+	    <span class="pill">Problem Solving</span>
+	    <span class="pill">Continuous Learning</span>
+	  </div>
+	</section>	
     <!-- EXPERIENCE -->
     <section id="experience" aria-label="Experience">
       <h2>Experience</h2>
@@ -322,6 +346,7 @@
       hint.textContent = `Heard: "${t}"`;
       if(/project/.test(t) || t==='show projects'){ go('#projects'); return; }
       if(/skill/.test(t) || t==='open skills'){ go('#skills'); return; }
+	  if(/about/.test(t) || t==='open about'){ go('#about'); return; }
       if(/experience|work|jobs/.test(t) || t==='open experience'){ go('#experience'); return; }
       if(/education|studies|uni/.test(t) || t==='open education'){ go('#education'); return; }
       if(/contact|email|reach/.test(t)){ go('#contact'); return; }
@@ -369,3 +394,4 @@
   </script>
 </body>
 </html>
+
