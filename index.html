@@ -118,6 +118,78 @@
     /* Center hero override */
     .assistant{grid-template-columns:1fr !important; justify-items:center; text-align:center}
     .assistant .ai-card{max-width:780px;margin:0 auto}
+
+	/* --- MOBILE FIXES (for phones) --- */
+	@media (max-width: 640px) {
+	
+	  /* reduce padding around sections */
+	  section {
+	    padding: 20px 10px;
+	  }
+	
+	  /* make hero + chat centered and compact */
+	  .assistant {
+	    grid-template-columns: 1fr !important;
+	    justify-items: center;
+	    text-align: center;
+	    padding: 40px 10px;
+	  }
+	
+	  .assistant .ai-card {
+	    width: 100%;
+	    padding: 16px;
+	    box-sizing: border-box;
+	  }
+	
+	  .avatar {
+	    width: 120px;
+	    height: 120px;
+	    border-radius: 24px;
+	  }
+	
+	  /* text readability */
+	  h1 {
+	    font-size: 30px;
+	  }
+	
+	  .lead {
+	    font-size: 16px;
+	    padding: 0 4px;
+	  }
+	
+	  /* fix cards layout */
+	  .cards {
+	    grid-template-columns: 1fr;
+	    gap: 18px;
+	  }
+	
+	  .card {
+	    padding: 14px;
+	  }
+	
+	  /* make chatbox full width */
+	  .chatbox {
+	    flex-direction: column;
+	    width: 100%;
+	    gap: 8px;
+	  }
+	
+	  .chatbox input {
+	    width: 100%;
+	    font-size: 15px;
+	    padding: 10px 12px;
+	  }
+	
+	  .chatbox button {
+	    width: 100%;
+	  }
+	
+	  /* ensure no horizontal scrollbars */
+	  body {
+	    overflow-x: hidden;
+	  }
+	}
+
   </style>
 </head>
 <body>
@@ -504,3 +576,4 @@
   </script>
 </body>
 </html>
+
